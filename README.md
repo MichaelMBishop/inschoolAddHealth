@@ -17,13 +17,13 @@ Michael Metcalf Bishop, bishop@uchicago.edu
              4) most categorical variables are encoded as class "factor" with labelled responses
          
       
-Note: Change the location of the data indicated in the first few lines of code.
-      Then, if you already have the listed packages installed, the remainder of the code may
-      be executed at once.
+**Notes:**
 
-      Inevitably, one must make some arbitrary choices, (e.g. see coding of race and ethnicity)
-      I've tried to make everything as transparent as possible, but please see
-      the in school codebook to be certain you understand the data
+Change the location of the data indicated in the first few lines of code.Then, if you already have the listed packages installed, the remainder of the code may be executed at once.
+
+Inevitably, one must make some arbitrary choices, (e.g. see coding of race and ethnicity)
+I've tried to make everything as transparent as possible, but please see
+the in school codebook to be certain you understand the data.
       
       
        
