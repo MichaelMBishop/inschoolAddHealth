@@ -3,7 +3,7 @@
 # Michael Metcalf Bishop, bishop@uchicago.edu
 
 # Data Source: Wave 1, In-School Survey, Longitudinal Study of Adolescent Health
-# Purpose: Prepare data for analysis, reduce need for codebook
+# Purpose: Provide the fastest best way to understand and begin analyzing this data
 #          Original variables are recoded such that
 #             1) most are given more meaningful variable names
 #             2) all missing codes become system missing
