@@ -20,12 +20,13 @@
 #       
 
 # Acknowledgements: I owe thanks to Joyce Tabor and James Moody for assistance but any errors are my own. 
-#                   Please submit/push suggestions for improvements and I'll ad your name here.
+#                   Please submit/push suggestions for improvements and I'll add your name here.
 ##################################################################
 
  
 library(car)
 library(Hmisc)
+#source("J:/R/util/util.R")
 
 #load("J:/R/inschool.RData")
 inschool <- sasxport.get("J:/DataAll/Inschool.xpt") # In School Survey, Wave I, provided by Add Health
@@ -544,16 +545,16 @@ inschool$club.acadsr <- sqrt(inschool$club.acad)
 label(inschool$club.acadsr) <- "sqrt # of academic clubs"
 
 
-inschool$ClubMusic =  with(inschool, band + chorus + orchest)
+inschool$clubmusic <-  with(inschool, band + chorus + orchest)
 
-inschool$sportpop = with(inschool, baseb + basketb + footbal + soccer)
+inschool$sportpop <- with(inschool, baseb + basketb + footbal + soccer)
 
 inschool$sportpop2 <- with(inschool, baseb + basketb + footbal + soccer + track)
 label(inschool$sportpop2) <- "# of popular male sports played"
 inschool$sportpop2sr <- sqrt(inschool$sportpop2)
 label(inschool$sportpop2sr) <- "sqrt # of popular male sports played"                                     
 
-inschool$fsport <- baseb + basketb +fhockey + soccer + swimmin + track + volball;
+inschool$fsport <- with(inschool, baseb + basketb +fhockey + soccer + swimmin + track + volball)
 label(inschool$fsport) <- "# of popular female sports played"
 inschool$fsportsr <- sqrt(inschool$fsport)
 label(inschool$fsportsr) <- "sqrt # of popular female sports played"
@@ -1003,7 +1004,7 @@ inschool$nogodoc <- car::recode(inschool$s65, '9=NA; ', as.factor.result=FALSE)
 describe(inschool$nogodoc)
 
 
-
+sink("J:/R/sink.txt", append=FALSE, split=FALSE)
 
 
 #####################################################################
@@ -1036,7 +1037,7 @@ label(inschool$mrsum) <- "How many 'multiple response' out of 25 possible"
 describe(inschool$mrsum)
 
 inschool$mrinfo <- with(inschool, ifelse(mrsum==0, 0, ifelse(mrsum==1, 1, ifelse(mrsum>1, 2, NA)))) 
-inschool$mrinfo <- factor(inschool$mrinfo, levels(0:2), labels=c("0","1","2-25"))
+inschool$mrinfo <- factor(inschool$mrinfo, levels=c(0:2), labels=c("0","1","2-25"))
 label(inschool$mrinfo) <- "Factor: How many 'multiple response' out of 25 possible"
 describe(inschool$mrinfo)
 
