@@ -597,9 +597,9 @@ describe(inschool$thmwk)
 
 
 inschool$tstud <- car::recode(inschool$s46d, '9=NA; ', as.factor.result=FALSE) # 9 = multiple response (63n)
-inschool$tstud <- factor(inschool$thmwk, levels = c(2,0,1,3,4), labels = c("about once a week", "never", "just a few times", "almost everyday", "everyday"))
-label(inschool$thmwk) <- "Trouble Getting Homework Done"
-
+inschool$tstud <- factor(inschool$tstud, levels = c(2,0,1,3,4), labels = c("about once a week", "never", "just a few times", "almost everyday", "everyday"))
+label(inschool$tstud) <- "Trouble With Other Students"
+describe(inschool$tstud)
 
 inschool$tv <- car::recode(inschool$s47, '9=NA; ', as.factor.result=FALSE) # 9 = multiple response (120n)
 inschool$tv <- factor(inschool$tv, levels = c(2,0,1,3,4), labels = c("1 to 2", "none", "less than 1", "3 to 4", "more than 4")) #error in survey, no 2-3 hr 
@@ -1075,3 +1075,8 @@ inschool$nainschs17s26 <- NULL
 inschool$nainschs45s46d <- NULL
 inschool$nainschs51s63 <- NULL
 
+
+sink("descriptives.txt", append=FALSE, split=TRUE)
+names(inschool)
+describe(inschool)
+sink()
