@@ -2,7 +2,8 @@
 # inschoolAddHealth.R
 # Michael Metcalf Bishop, bishop@uchicago.edu
 
-# Data Source: Wave 1, In-School Survey, Longitudinal Study of Adolescent Health
+# Data Source: Longitudinal Study of Adolescent Health
+#                Wave 1, In-School Survey, Restricted Access
 # Purpose: Provide the fastest best way to understand and begin analyzing this data
 #          Original variables are recoded such that
 #             1) most are given more meaningful variable names
@@ -77,6 +78,8 @@ inschool$immig.is <- car::recode(inschool$s8, '0=1; 1=0; 9=NA; ', as.factor.resu
 inschool$racenum.is <- with(inschool, ifelse(is.na(white.is), 0, white.is + black.is + amerind.is + asian.is + other.is))
 label(inschool$racenum.is) <- "# racial categories chosen: white+black+amerind+asian+other .is"
 describe(inschool$racenum.is)
+
+# the "attach" function is bad practice and its use should be eliminated.
 attach(inschool)
 table(racenum.is==1, whiteod.is, useNA="ifany")
 table(racenum.is==4, black.is)
@@ -84,11 +87,11 @@ table(racenum.is==4, amerind.is)
 table(racenum.is==4, asian.is)
 table(racenum.is==4, other.is)
 
-inschool$racecat.is <- ifelse(racenum.is==1, ifelse(white.is==1, 1, 
+inschool$racecat.is <- with(inschool, ifelse(racenum.is==1, ifelse(white.is==1, 1, 
                                              ifelse(black.is==1, 2,
                                              ifelse(amerind.is==1, 3, 
                                              ifelse(asian.is==1, 4, 
-                                             ifelse(other.is==1, 5, 55))))),NA)
+                                             ifelse(other.is==1, 5, 55))))),NA))
 
 inschool$racecat.is <- factor(inschool$racecat.is, labels = c("White", "Black", "Am. Indian", "Asian", "Other"))
 label(inschool$racecat.is) <- "Racial category chosen, NA if > 1 or < 1"
@@ -115,22 +118,22 @@ describe(inschool$whiteod.is)
 describe(inschool$blackod.is)
 describe(inschool$asianhod.is)
 
-inschool$racecat.h.is <- ifelse((racenum.is==1 & hispanic.is==1), 
+inschool$racecat.h.is <- with(inschool, ifelse((racenum.is==1 & hispanic.is==1), 
                                             ifelse(white.is==1, 1, 
                                             ifelse(black.is==1, 2, 
                                             ifelse(amerind.is==1, 3, 
                                             ifelse(asian.is==1, 4, 
-                                            ifelse(other.is==1, 5, 55))))),NA)
+                                            ifelse(other.is==1, 5, 55))))),NA))
 
 inschool$racecat.h.is <- factor(inschool$racecat.h.is, labels= c("H White", "H Black", "H AmInd", "H Asian", "H Other"))
 label(inschool$racecat.h.is) <- "missing for hispanic = 0 or NA, or > 1 or < 1 race"
 
-inschool$racecat.nh.is <- ifelse((racenum.is==1 & hispanic.is!=1), 
+inschool$racecat.nh.is <- with(inschool, ifelse((racenum.is==1 & hispanic.is!=1), 
                                         ifelse(white.is==1, 1, 
                                         ifelse(black.is==1, 2, 
                                         ifelse(amerind.is==1, 3, 
                                         ifelse(asian.is==1, 4, 
-                                        ifelse(other.is==1, 5, 55))))),NA)
+                                        ifelse(other.is==1, 5, 55))))),NA))
 
 inschool$racecat.nh.is <- factor(inschool$racecat.nh.is, labels= c("NH White", "NH Black", "NH AmInd", "NH Asian", "NH Other"))
 label(inschool$racecat.nh.is) <- "missing for hispanic = 1 or NA, or > 1 or < 1 race"
@@ -1026,11 +1029,16 @@ sink("J:/R/sink.txt", append=FALSE, split=FALSE)
 # too much difficulty
                        
    
-inschool$mrs1s13 <- apply(inschool[c("s1", "s2", "s3", "s8", "s9", "s11", "s13")],1,function(x){sum(x == c(99,9,99,9,99,9,9),na.rm = TRUE)})
-inschool$mrs21s25 <- apply(inschool[c("s21", "s22", "s23", "s25")],1,function(x){sum(x == 9,na.rm = TRUE)})
-inschool$mrs45 <- apply(inschool[c("s45a", "s45b", "s45c", "s45d")],1,function(x){sum(x == 99,na.rm = TRUE)})
-inschool$mrs46 <- apply(inschool[c("s46a", "s46b", "s46c", "s46d")],1,function(x){sum(x == 9,na.rm = TRUE)})
-inschool$mrs51s63 <- apply(inschool[c("s51", "s61f", "s62p", "s62q","s62r","s63")],1,function(x){sum(x == 9,na.rm = TRUE)})
+inschool$mrs1s13 <- apply(inschool[c("s1", "s2", "s3", "s8", "s9", "s11", "s13")],
+                          1, function(x) {sum(x == c(99,9,99,9,99,9,9), na.rm = TRUE)})
+inschool$mrs21s25 <- apply(inschool[c("s21", "s22", "s23", "s25")],
+                           1, function(x) {sum(x == 9, na.rm = TRUE)})
+inschool$mrs45 <- apply(inschool[c("s45a", "s45b", "s45c", "s45d")],
+                        1, function(x) {sum(x == 99, na.rm = TRUE)})
+inschool$mrs46 <- apply(inschool[c("s46a", "s46b", "s46c", "s46d")],
+                        1, function(x) {sum(x == 9, na.rm = TRUE)})
+inschool$mrs51s63 <- apply(inschool[c("s51", "s61f", "s62p", "s62q","s62r","s63")],
+                           1, function(x){sum(x == 9, na.rm = TRUE)})
 
 inschool$mrsum <- with(inschool, mrs1s13 + mrs21s25 + mrs45 + mrs46 + mrs51s63)
 label(inschool$mrsum) <- "How many 'multiple response' out of 25 possible"
